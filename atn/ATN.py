@@ -3,7 +3,7 @@ This file includes ATNs as classes.
 '''
 import torch
 nn = torch.nn
-
+# -*- coding: utf-8 -*-
 class GATN_FC(nn.Module):
     '''
     USAGE: atn = GATN_FC()
@@ -35,7 +35,7 @@ class GATN_FC(nn.Module):
                 sigmoid
             } 
         '''
-        super().__init__()
+        super(GATN_FC, self).__init__()
         self.beta = beta
         self.channel = channel
         self.width = width
@@ -81,7 +81,7 @@ class GATN_Conv(nn.Module):
         '''
         This is a simple net of (width * width)->FC( innerlayer )->FC(width * width)-> sigmoid(grad + output)
         '''
-        super().__init__()
+        super(GATN_Conv, self).__init__()
         self.beta = beta
         self.channel = channel
         self.width = width
@@ -129,7 +129,7 @@ class ATN_a(nn.Module):
         '''
             This is a simple net of (width * width)->FC( innerlayer )->FC(width * width)
         '''
-        super().__init__()
+        super(ATN_a, self).__init__()
         self.alpha = alpha
         self.beta = beta
         self.channel = channel
@@ -180,7 +180,7 @@ class ATN_b(nn.Module):
                 Sigmoid
             }
         '''
-        super().__init__()
+        super(ATN_b, self).__init__()
         self.alpha = alpha
         self.beta = beta
         self.channel = channel
@@ -220,7 +220,7 @@ class GATN_a(nn.Module):
         '''
             This is a simple net of (width * width)->FC( innerlayer )->FC(width * width)-> sigmoid(grad + output)
         '''
-        super().__init__()
+        super(GATN_a, self).__init__()
         self.alpha = alpha
         self.beta = beta
         self.channel = channel

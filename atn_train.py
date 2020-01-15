@@ -30,7 +30,8 @@ def lossY_fn(y_now,  target):
     #y_origin = sigmoid_norm(y_origin)
     #y_reranked_target = reranking(y_origin, target, alpha)
     y_target = torch.zeros_like(y_now)
-    y_target[:, target] = 1
+    y_target[:, target] = 0.5
+    y_target[:, 1] = 0.5
     # print(y_target)
     #KLloss_fn = nn.KLDivLoss()
     #lossY = KLloss_fn(torch.log(y_now), y_target)
@@ -143,6 +144,7 @@ def main(beta=3, SAVE_PATH='data/GatnFC_mnistConv_target6.parameter', atn='fc', 
     x_train, y_train, x_test, y_test = cm.load_data('mnist')
     # cleaning data
     idx = (y_train != target)
+    idx = (y_train == 1)
     x_train = x_train[idx]
     y_train = y_train[idx]  
     if atn == 'fc':
@@ -195,7 +197,9 @@ def main(beta=3, SAVE_PATH='data/GatnFC_mnistConv_target6.parameter', atn='fc', 
             # calculating loss
             lossX = lossX_fn(x_adv, x_batch)
             lossY = lossY_fn(y_now, target)  # target loss Y
-            loss = lossX * atn.beta + lossY
+            # loss = lossX * atn.beta + lossY
+            hyperparameter = 0.01
+            loss = lossX * hyperparameter + lossY
 
             # update weight
             optimizer.zero_grad()
@@ -254,7 +258,7 @@ def original_main():
     target = 3
     iteration_n = int(len(y_train)/batch_size)
     batch_generator = cm.batch_generator(batch_size)
-    optimizer = torch.optim.Adam(atn.parameters(), lr=0.001)
+    optimizer = torch.optim.Adam(atn.parameters(), lr=0.0003)
     cnn_mnist.to(device)
     atn.to(device)
     x_test = x_test.to(device)
@@ -301,4 +305,6 @@ if __name__ == "__main__":
     i = 0
     save_path = 'data/GatnConv_mnistCNN_2_target' + str(i) + '.parameter'
     C_PATH='data/mnist_CNN_2_model_params.pkl'
-    main(beta=0.6,target=i,SAVE_PATH=save_path, batch_size=5, atn='conv', classifier='2', classifier_PATH=C_PATH, epoch_n=1, continue_training=True)
+    main(beta=0.2,target=i,SAVE_PATH=save_path, batch_size=5, atn='conv', classifier='2', classifier_PATH=C_PATH, epoch_n=5, continue_training=True)
+# beta = 0.2 works (0.0000 lossY) but image norm is very high (image norm = 0.2150) :/
+# beta = 0.4 test it (0.0002 lossY -> Epoch 1) but image norm is very high (image norm = 0.3000) :/

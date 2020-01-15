@@ -1,5 +1,5 @@
 # print('import train_cnn success')
-
+# -*- coding: utf-8 -*-
 import torch as tc
 import torchvision as tv
 import torch.utils.data as Data
