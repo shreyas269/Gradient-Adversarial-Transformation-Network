@@ -26,11 +26,11 @@ def load_data(dataset_name ):
     directory = 'data/' + dataset_name 
    #  print(directory)
     if dataset_name == 'mnist':
-        train_data = tv.datasets.MNIST(root=directory, train=True,transform=tv.transforms.ToTensor(),download=False)
-        test_data = tv.datasets.MNIST(root=directory, train=False,transform=tv.transforms.ToTensor(),download=False)
+        train_data = tv.datasets.MNIST(root=directory, train=True,transform=tv.transforms.ToTensor(),download=True)
+        test_data = tv.datasets.MNIST(root=directory, train=False,transform=tv.transforms.ToTensor(),download=True)
     else:
-        train_data = tv.datasets.CIFAR10(root=directory, train=True,transform=tv.transforms.ToTensor(),download=False)
-        test_data = tv.datasets.CIFAR10(root=directory, train=False,transform=tv.transforms.ToTensor(),download=False)
+        train_data = tv.datasets.CIFAR10(root=directory, train=True,transform=tv.transforms.ToTensor(),download=True)
+        test_data = tv.datasets.CIFAR10(root=directory, train=False,transform=tv.transforms.ToTensor(),download=True)
     if dataset_name == 'mnist':
         X_train = train_data.train_data
         X_train = X_train.reshape(X_train.shape[0],1, 28, 28)
